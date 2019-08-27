@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>webchat</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div id="login-page">
+        <div class="container">
+            <form class="form-signin">
+                <h2 class="form-signin-heading">请输入用户名</h2>
+                <label for="inputEmail" class="sr-only">用户名</label>
+                <input type="username" id="username" class="form-control" placeholder="用户名" required autofocus>
+                <!--<label for="inputPassword" class="sr-only">密码</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>-->
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me">
+                        记住我
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+            </form>
+        </div>
+    </div>
+    <!--chat page start-->
+    <div id="chat-page">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button"
+                    data-toggle="callapse" data-target="#navbar">
+                        <span class="sr-only">折叠</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">聊天室</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">链接</a></li>
+                        <li><a href="#">链接</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">链接</a></li>
+                        <li><a href="#">链接</a></li>
+                        <li><a href="#">链接</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="col-md-8 col-xs-12">
+                <div class="main">
+                    <h4>公共聊天室</h4>
+                    <div id="content">
+                        <!--<div class="left">
+                            <div>2019年12月12日7:10</div>
+                            <p>woshishishishish</p>
+                        </div>
+                        <div class="right">
+                            <div class="pull-right">2019年12月12日7:10</div>
+                            <div class="clearfix"></div>
+                            <p class="pull-right">你好啊啊啊啊啊啊</p>
+                            <div class="clearfix"></div>
+                        </div>-->
+                    </div>
+                    <div class="input">
+                        <textarea id="input-message"></textarea>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-primary" id="send-message">发送</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6 sidebar">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="#">列表1<span class="badge">12</span></a></li>
+                    <li class="list-group-item"><a href="#">列表2</a></li>
+                    <li class="list-group-item"><a href="#">列3</a></li>
+                    <li class="list-group-item"><a href="#">列表4</a></li>
+                    <li class="list-group-item"><a href="#">列表5</a></li>
+                    <li class="list-group-item"><a href="#">列表</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--chat page end-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
