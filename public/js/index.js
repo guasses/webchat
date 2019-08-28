@@ -2,12 +2,16 @@ var person = {};
 $(function(){
     var socket = io();
     var connected = false;
+    if(localStorage.username != undefined){
+        socket.emit('add user',username);
+    }
 
     $("button[type='submit']").click(()=>{
         let username = $("input[type='username']").val();
         if(username != ""){
             socket.emit('add user',username);
             person.username = username;
+            localStorage.setItem("username",username);
         }else if(username == ""){
             return true;
         }
@@ -63,7 +67,7 @@ $(function(){
     });
     socket.on('reconnect',()=>{
         console.log('重新连接');
-        if(username){
+        if(localStorage.username != undefined){
             socket.emit('add user',username);
         }
     });

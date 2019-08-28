@@ -1,7 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+}
 body{
-    padding-top: 40px;
+    padding-top: 60px;
     padding-bottom: 40px;
     background-color: #eee;
+    font-family: '宋体','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .form-signin{
     max-width: 330px;
@@ -40,23 +45,164 @@ border-top-right-radius: 0;
 #chat-page{
     display:none;
 }
+.container{
+    margin: 0 auto;
+    width: 800px;
+    height: 600px;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+.tim-top{
+    background-image: url("../image/tim.png");
+    height: 55px;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;  
+}
+ul{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+.tim-top .navbar-left{
+    position:absolute;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.tim-top .navbar-left img{
+    border-radius: 50%;
+}
+.tim-top .navbar-center{
+    display: inline;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%,-50%);
+}
+.tim-top .navbar-center li{
+    display: inline;
+}
+.tim-top .navbar-center li a{
+    color: white;
+    font-size: 1.2em;
+}
 
-body{
-    padding-top: 60px;
+.tim-top .navbar-right{
+    position: absolute;
+    right: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: default;
+}
+.tim-top .navbar-right li{
+    display: inline;
+    margin-left: 2px;
+}
+.tim-top .navbar-right li span{
+    color: rgb(200, 200, 200);
+    font-size: 1.1em;
+    cursor: pointer;
+}
+.tim-main{
+    display: flex;
+    height: 545px;
+}
+.tim-main .sidebar{
+    width: 200px;
+    background-color: rgb(228, 237, 246);
+}
+.list-group{
+    padding-top: 10px;
+    height: 535px;
+    overflow: auto;
+}
+.list-group .list-group-item{
+    height: 60px;
+    position: relative;
+}
+.list-group-item.active,.list-group-item:hover{
+    background-color: rgb(222, 230, 236);
+}
+.list-group-item img{
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 7px;
+}
+.list-group-item h4{
+    position: absolute;
+    left: 57px;
+    height: 30px;
+    line-height: 30px;
+}
+.list-group-item p{
+    position: absolute;
+    left: 57px;
+    bottom: 0px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    font-size: 0.8em;
+}
+.tim-main .main{
+    width: 600px;
+    padding-left: 10px;
+}
+.main .main-title{
+    height: 39px;
+    border-bottom: 1px solid rgb(195, 195, 195);
+}
+.main .main-title h4{
+    line-height: 39px;
+}
+.main .main-content{
+    height: 345px;
+}
+.main .main-bar{
+    padding-top: 8px;
+    height: 31px;   
+    border-top: 1px solid rgb(195, 195, 195);
+}
+.main .main-bar li{
+    display: inline;
+}
+.main .main-bar li span{
+    font-size: 25px;
+    color: rgb(102, 102, 102);
+    margin-left: 10px;
+}
+.main .main-input{
+    height: 80px;
+}
+.main .main-input textarea{
+    border: none;
+    background-color: aliceblue;
+    width: 592.5px;
+    height: 80px;
+    resize: none;
+    overflow-x: hidden;
+}
+.main .main-control{
+    height: 40px;  
+    position: relative; 
+}
+.main .main-control button{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgb(0, 183, 255);
+    height: 25px;
+    width: 80px;
+    border-radius: 3px;
+    border-width: 0;
+}
+.main .main-control button:hover{
+    background-color: rgba(0, 183, 255, 0.7);
 }
 #content{
-    height: 400px;
     overflow: auto;
     overflow-x: hidden;
-}
-#input-message{
-    overflow-x: hidden;
-    resize: none;
-    width: 100%;
-    height: 100px;
-}
-@media screen and (max-width:767px){
-    .sidebar{
-        display: none;
-    }
 }
