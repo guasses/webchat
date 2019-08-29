@@ -10,22 +10,20 @@
 </head>
 <body>
     <div id="login-page">
-        <div class="container">
-            <form class="form-signin">
-                <h2 class="form-signin-heading">请输入用户名</h2>
-                <label for="inputEmail" class="sr-only">用户名</label>
-                <input type="username" id="username" class="form-control" placeholder="用户名" required autofocus>
-                <!--<label for="inputPassword" class="sr-only">密码</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>-->
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me">
-                        记住我
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-            </form>
-        </div>
+        <form class="form-signin">
+            <h2 class="form-signin-heading">请输入用户名</h2>
+            <label for="inputEmail" class="sr-only">用户名</label>
+            <input type="username" id="username" class="form-control" placeholder="用户名" required autofocus autocomplete="off">
+            <label for="inputPassword" class="sr-only">密码</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me">
+                    记住我
+                </label>
+            </div>
+            <button class="btn-submit" type="submit">登录</button>
+        </form>
     </div>
     <!--chat page start-->
     <div id="chat-page" class="container">
@@ -48,12 +46,12 @@
         <div class="tim-main">
             <div class="sidebar">
                 <ul class="list-group">
-                    <li class="list-group-item">
+                    <li class="list-group-item active">
                         <img src="./image/tx.png" alt="头像" width="45px" height="45px">
                         <h4>公共聊天室</h4>
                         <p></p>
                     </li>
-                    <li class="list-group-item active">
+                    <!--<li class="list-group-item">
                         <img src="./image/tx.png" alt="头像" width="45px" height="45px">
                         <h4>我的iPhone</h4>
                         <p>您已登录手机QQ，可传文件到手机</p>
@@ -67,7 +65,7 @@
                         <img src="./image/tx.png" alt="头像" width="45px" height="45px">
                         <h4>我的iPhone</h4>
                         <p>您已登录手机QQ，可传文件到手机</p>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <div class="main">
@@ -75,13 +73,14 @@
                     <h4>公共聊天室</h4>
                 </div>
                 <div class="main-content" id="content">
-                    <div class="left">
+                    <div class="other">
                         <div>2019年12月12日7:10</div>
                         <p>woshishishishish</p>
                     </div>
-                    <div class="right">
+                    <div class="mime">
                         <div>2019年12月12日7:10</div>
                         <p>你好啊啊啊啊啊啊aaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                        <p>nihao</p>
                     </div>
                 </div>
                 <ul class="main-bar">
@@ -100,7 +99,6 @@
     </div>
     <!--chat page end-->
     <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/socket.io.js"></script>
     <script src="js/index.js"></script>
 </body>

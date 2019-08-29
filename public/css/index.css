@@ -6,12 +6,16 @@ body{
     padding-top: 60px;
     padding-bottom: 40px;
     background-color: #eee;
-    font-family: '宋体','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "宋体","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 .form-signin{
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
+}
+.h2,h2{
+    font-size: 30px;
+    font-weight: 500;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox{
@@ -20,7 +24,34 @@ body{
 .form-signin .checkbox{
     font-weight: normal;
 }
+.form-control{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-control:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
 .form-signin .form-control{
+    width: 100%;
     position: relative;
     height: auto;
     -webkit-box-sizing: border-box;
@@ -32,7 +63,7 @@ body{
 .form-signin .form-control:focus {
     z-index: 2;
   }
-.form-signin input[type="email"] {
+.form-signin input[type="username"] {
 margin-bottom: -1px;
 border-bottom-right-radius: 0;
 border-bottom-left-radius: 0;
@@ -41,6 +72,35 @@ border-bottom-left-radius: 0;
 margin-bottom: 10px;
 border-top-left-radius: 0;
 border-top-right-radius: 0;
+}
+.btn-submit{
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    text-align: center;
+    cursor: pointer;
+    border-width: 0;
+}
+.btn-submit:hover{
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
 }
 #chat-page{
     display:none;
@@ -87,7 +147,6 @@ a{
     color: white;
     font-size: 1.2em;
 }
-
 .tim-top .navbar-right{
     position: absolute;
     right: 1%;
@@ -159,6 +218,18 @@ a{
 }
 .main .main-content{
     height: 345px;
+}
+.main-content p{
+    /*自动换行*/
+    word-break:break-word;
+}
+.other div{
+    color: blue;
+    font-size: 0.9em;
+}
+.mime div{
+    color: green;
+    font-size: 0.9em;
 }
 .main .main-bar{
     padding-top: 8px;

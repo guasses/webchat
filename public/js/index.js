@@ -1,16 +1,16 @@
-var person = {};
 $(function(){
     var socket = io();
     var connected = false;
+    var prePerson = "";
+    var $content = $('#content');
+    var $inputMessage = $('#input-message');
     if(localStorage.username != undefined){
-        socket.emit('add user',username);
+        socket.emit('add user',localStorage.username);
     }
-
     $("button[type='submit']").click(()=>{
         let username = $("input[type='username']").val();
         if(username != ""){
             socket.emit('add user',username);
-            person.username = username;
             localStorage.setItem("username",username);
         }else if(username == ""){
             return true;
@@ -18,22 +18,17 @@ $(function(){
         return false;
     });
     $("#send-message").click((e)=>{
-        sendMessage(socket);
+        let message = sendMessage(socket);
         if(connected){
-            //displayMyMessage()
-            var $content = $('#content');
-            var $right = $('<div></div>').addClass('right');
-            var temp = new Date();
-            var time = temp.toLocaleDateString() + " " + temp.toLocaleTimeString();
-            var $time = $('<div></div>').text(time + person.username);
-            var $message = $('<p></p>').text(person.message);
-            console.log(person.message);
-            var $clearfix1 = $('<div></div>').addClass('clearfix');
-            var $clearfix2 = $('<div></div>').addClass('clearfix');
-            $time.addClass('pull-right');
-            $message.addClass('pull-right');
-            $right.append($time).append($clearfix1).append($message).append($clearfix2);
-            $content.append($right);
+            displayMessage(message);
+        }
+    });
+    $inputMessage.keyup((e)=>{
+        if(e.keyCode == 13){
+            let message = sendMessage(socket);
+            if(connected){
+                displayMessage(message);
+            }
         }
     });
     socket.on('login',(data)=>{
@@ -42,7 +37,7 @@ $(function(){
         let $chatPage = $('#chat-page');
         $loginPage.hide();
         $chatPage.show();
-        var message = `欢迎${person.username}来到webchat`;
+        var message = `欢迎${localStorage.username}来到webchat`;
         console.log(message);
     });
     socket.on('new message',(data)=>{
@@ -75,46 +70,38 @@ $(function(){
         console.log('重新连接失败！');
     });
 
+    function sendMessage(socket){
+        var inputMessage = $inputMessage.val();
+        //console.log(inputMessage);
+        $inputMessage.val('');
+        localStorage.message = inputMessage;
+        socket.emit('new message',inputMessage);
+        return inputMessage;
+    }
+    function displayMessage(data){
+        var $container = $('<div></div>');
+        var username,message = "";
+        if(typeof data == "string"){
+            $container.removeClass().addClass('mime');
+            username = localStorage.username;
+            message = localStorage.message;
+        }else{
+            $container.removeClass().addClass('other');
+            username = data['username'];
+            message = data['message'];
+        }
+        var $message = $('<p></p>').text("·"+message);
+        if(prePerson == username){
+            $container.append($message);
+        }else{
+            var time = new Date().toLocaleString();
+            var $time = $('<div></div>').text(time + " " + username);
+            $container.append($time).append($message);
+            messageTmp['time'] = time;
+        }
+        $content.append($container);
+        //让滚动条保持在最下方
+        $content[0].scrollTop = $content[0].scrollHeight;
+        prePerson = username;
+    }
 });
-function sendMessage(socket){
-    var $inputMessage = $('#input-message');
-    var inputMessage = $inputMessage.val();
-    //console.log(inputMessage);
-    $inputMessage.val('');
-    person.message = inputMessage;
-    socket.emit('new message',inputMessage);
-}
-function displayMessage(data){
-    var $content = $('#content');
-    var $left = $('<div></div>').addClass('left');
-    var temp = new Date();
-    var time = temp.toLocaleDateString() + " " + temp.toLocaleTimeString();
-    var $time = $('<div></div>').text(time + data['username']);
-    var $message = $('<p></p>').text(data['message']);
-    $left.append($time).append($message);
-    $content.append($left);
-}
-
-/*var socket = io('/http://localhost:8080');
-
-$(function(){
-    createSocket(socket);
-    $("#send-message").click(sendMessage);
-    $('#input-message').keyup(onInputKeyDown);
-});
-
-function displayMessage(data){
-    var $left = $('<div></div>').addClass('left');
-    //var temp = new Date();
-    //var time = temp.toLocaleDateString() + " " + temp.toLocaleTimeString();
-    var $time = $('<div></div>').text(data['time']);
-    var $message = $('<p></p>').text(data['content']);
-    $left.append($time).append($message);
-    $content.append($left);
-}
-function sendMessage(event){
-    var $inputMessage = $('#input-message');
-    var inputMessage = $inputMessage.val();
-    //console.log(inputMessage);
-    $inputMessage.val('');
-}*/
