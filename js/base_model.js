@@ -4,9 +4,11 @@
  * @time 2019-07-02
  * @desc desc base.model.js by Node.js开发实战详解，mysql数据库CRUD接口
  */
-var Util = require('./util.js'),
-    mysql = require('mysql'),
-    pool;
+const util = require('util'),
+    fs = require('fs'),
+    mysql = require('mysql');
+
+var pool;
 
 module.exports = function(){
     __constructor();
@@ -42,7 +44,7 @@ module.exports = function(){
         });
     }
     function __constructor(){
-        var dbConfig = Util.get('config.json','db');
+        var dbConfig = getJsonFromFile('config.json','db');
         var client = {};
         client.host = dbConfig['host'];
         client.port = dbConfig['port'];
@@ -71,7 +73,7 @@ module.exports = function(){
      */
     this.insert = function(tableName,rowInfo,callback){
         query('INSERT INTO ' + tableName + ' SET ?',rowInfo,function(results,fields){
-            if(err) throw err;
+            //if(err) throw err;
             callback(results.insertId);
         });
     }
@@ -131,7 +133,7 @@ module.exports = function(){
         });
     }
     /**
-     * @desc 条件查询数据
+     * @desc 条件查询数'据
      * @param tableName string
      * @param whereJson json desc 查找的条件 var whereJson = {
      * 'and':[{'key':'book_name','opts':'=','value':'"nodejs book"'},
@@ -208,4 +210,15 @@ module.exports = function(){
             }
         });
     }
+}
+
+function getJsonFromFile(fileName,key){
+    var configJson = {};
+    try{
+        var str = fs.readFileSync(fileName,'utf8');
+        configJson = JSON.parse(str);
+    }catch(e){
+        util.debug("JSON parse fails");
+    }
+    return configJson[key];
 }

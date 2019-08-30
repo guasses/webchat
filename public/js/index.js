@@ -2,47 +2,99 @@ $(function(){
     var socket = io();
     var connected = false;
     var prePerson = "";
+    var histroyPrePerson = "";
     var $content = $('#content');
     var $inputMessage = $('#input-message');
-    if(localStorage.username != undefined){
-        socket.emit('add user',localStorage.username);
+    var chatID = $(".list-group-item.active").attr("data-id");
+    if(localStorage.username != undefined && localStorage.password != undefined){
+        socket.emit('login',{
+            username:localStorage.username,
+            password:localStorage.password
+        });
     }
-    $("button[type='submit']").click(()=>{
-        let username = $("input[type='username']").val();
-        if(username != ""){
-            socket.emit('add user',username);
-            localStorage.setItem("username",username);
-        }else if(username == ""){
+    $("#register").click(()=>{
+        $('#login-page').hide();
+        $('#signin-page').show();
+    });
+    $("#signin").click(()=>{
+        $('#login-page').show();
+        $('#signin-page').hide();
+    });
+    $("#login-submit").click(()=>{
+        let username = $("#login-username").val();
+        let password = $("#login-password").val();
+        //console.log(username);
+        if(username != "" && password != ""){
+            socket.emit('login',{
+                username:username,
+                password:password
+            });
+            localStorage.username = username;
+            localStorage.password = password;
+        }else{
             return true;
         }
         return false;
     });
+    $("#signin-submit").click(()=>{
+        let username = $("#signin-username").val();
+        let password = $("#signin-password").val();
+        //console.log(username,password);
+        if(username != "" && password != ""){
+            socket.emit('add user',{
+                username:username,
+                password:password
+            });
+        }else{
+            return true;
+        }
+        return false;
+    });
+
     $("#send-message").click((e)=>{
         let message = sendMessage(socket);
-        if(connected){
+        if(message && connected){
             displayMessage(message);
         }
     });
     $inputMessage.keyup((e)=>{
         if(e.keyCode == 13){
             let message = sendMessage(socket);
-            if(connected){
+            if(message && connected){
                 displayMessage(message);
             }
+            $inputMessage.val("");
         }
     });
-    socket.on('login',(data)=>{
+    socket.on('add user state',(data)=>{
+        if(data=="success"){
+            alert("注册成功，请登录！");
+        }else if(data=="failure"){
+            alert("用户名重复，请重新注册！");
+        }
+    });
+    socket.on('login state',(data)=>{
         connected = true;
-        let $loginPage = $('#login-page');
-        let $chatPage = $('#chat-page');
-        $loginPage.hide();
-        $chatPage.show();
-        var message = `欢迎${localStorage.username}来到webchat`;
-        console.log(message);
+        if(data=="success"){
+            $('#login-page').hide();
+            $('#chat-page').show();
+            var message = `欢迎${localStorage.username}来到webchat`;
+            console.log(message);
+            socket.emit("group histroy messages",{
+                id:1
+            });
+        }else if(data=="failure"){
+            alert("账户或密码错误，请重新输入！");
+        }
     });
     socket.on('new message',(data)=>{
         displayMessage(data);
         console.log(data);
+    });
+    socket.on('group histroy messages',(data)=>{
+        for(item of data){
+            displayHistroyMessage(item);
+        }
     });
     socket.on('user joined',(data)=>{
         console.log(data.username + '加入');
@@ -71,12 +123,19 @@ $(function(){
     });
 
     function sendMessage(socket){
-        var inputMessage = $inputMessage.val();
-        //console.log(inputMessage);
-        $inputMessage.val('');
-        localStorage.message = inputMessage;
-        socket.emit('new message',inputMessage);
-        return inputMessage;
+        var inputMessage = $inputMessage.val().replace('\n',"");
+        if(inputMessage == ""){
+            return false;
+        }else{
+            $inputMessage.val('');
+            localStorage.message = inputMessage;
+            socket.emit('new message',{
+                id:1,
+                username:localStorage.username,
+                message:inputMessage
+            });
+            return inputMessage;
+        }
     }
     function displayMessage(data){
         var $container = $('<div></div>');
@@ -97,11 +156,33 @@ $(function(){
             var time = new Date().toLocaleString();
             var $time = $('<div></div>').text(time + " " + username);
             $container.append($time).append($message);
-            messageTmp['time'] = time;
         }
         $content.append($container);
         //让滚动条保持在最下方
         $content[0].scrollTop = $content[0].scrollHeight;
         prePerson = username;
+    }
+    function displayHistroyMessage(data){
+        var $container = $('<div></div>');
+        var username,message = "";
+        if(data['username'] == localStorage.username){
+            $container.removeClass().addClass('mime');
+        }else{
+            $container.removeClass().addClass('other');
+        }
+        username = data['username'];
+        message = data['message'];
+        var $message = $('<p></p>').text("·"+message);
+        if(histroyPrePerson == username){
+            $container.append($message);
+        }else{
+            var time = new Date(data['time']).toLocaleString();
+            var $time = $('<div></div>').text(time + " " + username);
+            $container.append($time).append($message);
+        }
+        $content.append($container);
+        //让滚动条保持在最下方
+        $content[0].scrollTop = $content[0].scrollHeight;
+        histroyPrePerson = username;
     }
 });

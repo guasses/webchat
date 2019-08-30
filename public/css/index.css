@@ -8,6 +8,9 @@ body{
     background-color: #eee;
     font-family: "宋体","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+#signin-page{
+    display: none;
+}
 .form-signin{
     max-width: 330px;
     padding: 15px;
@@ -23,6 +26,18 @@ body{
 }
 .form-signin .checkbox{
     font-weight: normal;
+    position: relative;
+    height: 24px;
+    margin-bottom: 10px;
+}
+.form-signin .checkbox p{
+    display: inline;
+    position:absolute;
+    right:0;
+}
+.form-signin .checkbox a{
+    color: blue;
+    cursor: pointer;
 }
 .form-control{
     display: block;
