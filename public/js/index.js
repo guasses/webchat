@@ -6,6 +6,8 @@ $(function(){
     var $content = $('#content');
     var $inputMessage = $('#input-message');
     var chatID = $(".list-group-item.active").attr("data-id");
+    var $head_portrait = $('#head-portrait');
+    var $pop_up_bar = $('.pop-up-bar');
     if(localStorage.username != undefined && localStorage.password != undefined){
         socket.emit('login',{
             username:localStorage.username,
@@ -50,7 +52,9 @@ $(function(){
         }
         return false;
     });
-
+    $head_portrait.click((e)=>{
+        $pop_up_bar.toggle();
+    });
     $("#send-message").click((e)=>{
         let message = sendMessage(socket);
         if(message && connected){
