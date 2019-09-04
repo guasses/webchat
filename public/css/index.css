@@ -225,8 +225,11 @@ a{
     position: absolute;
     background-color: white;
     width: 170px;
-    height: 200px;
+    height: 180px;
     display: none;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .tim-main .pop-up-bar .list-group-item{
     height: 30px;
@@ -238,16 +241,22 @@ a{
     line-height: 25px;
 }
 .tim-main .pop-up-bar .list-group-item h4{
-
+    line-height: 25px;
 }
 .tim-main .pop-up-bar .list-group-item p{
-    
+    line-height: 14px;
+    height: 15px;
+    border-bottom: 1px solid rgb(104, 104, 104);
+    padding-bottom: 5px;
 }
 .tim-main .pop-up-bar .list-group-item a{
     color: black;
 }
 .tim-main .pop-up-bar .list-group-item:nth-child(1){
     height: 50px;
+}
+.tim-main .pop-up-bar .list-group-item:nth-child(2){
+    border-bottom: 1px solid rgb(104, 104, 104);
 }
 .tim-main .main{
     width: 600px;

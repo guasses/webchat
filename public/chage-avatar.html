@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="css/cropper.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/iconfont.css">
 </head>
 <body>
-    <div class="dialog">
+    <div class="dialog" id="change-head">
         <div class="head">
             <div class="title">
                 <h4>更换头像</h4>
@@ -20,100 +22,294 @@
         </div>
         <div class="body">
             <div class="buttons">
-                <button><span class="iconfont icon-upload"></span>上传本地照片</button>
-                <button>挑选推荐头像</button>
+                <div>
+                    <input type="file" name="imageFile" style="display: none">
+                    <button id="select-picture"><span class="iconfont icon-upload"></span>上传本地照片</button>
+                    <button id="select-recommend">挑选推荐头像</button>
+                </div>
             </div>
             <div class="picture">
-                <img src="" alt="">
-            </div>
-            <div class="control">
-                <ul>
-                    <li><span class="iconfont icon-minus-square"></span></li>
-                    <li><input type="range"  min="0" max="20" step="1"></li>
-                    <li><span class="iconfont icon-plus-square"></span></li>
-                    <li><span class="iconfont icon-undo"></span></li>
-                    <li><span class="iconfont icon-redo"></span></li>
-                </ul>
+                <div class="picture-container"></div>
             </div>
         </div>
         <div class="foot">
             <div class="choice">
-                <button type="button">确定</button>
+                <button type="button" id="upload-picture">确定</button>
                 <button type="button">取消</button>
             </div>
         </div>
     </div>
+    <div class="dialog" style="display: none" id="select-head">
+        <div class="head">
+            <h4>选择头像</h4>
+            <div>
+                <span class="iconfont icon-minus"></span>
+                <span class="iconfont icon-close"></span>
+            </div>
+        </div>
+        <div class="body">
+            <ul class="picture-list-group">
+                <li><img src="image/default avatar/icons-bald-man-in-g.png"></li>
+                <li><img src="image/default avatar/icons-blond-curly-h.png"></li>
+                <li><img src="image/default avatar/icons-blond-long-ha.png"></li>
+                <li><img src="image/default avatar/icons-brown-curly-h.png"></li>
+                <li><img src="image/default avatar/icons-brown-curly-h1.png"></li>
+                <li><img src="image/default avatar/icons-brown-hair-bu.png"></li>
+                <li><img src="image/default avatar/icons-brown-long-cu.png"></li>
+                <li><img src="image/default avatar/icons-brown-long-ha.png"></li>
+                <li><img src="image/default avatar/icons-brown-pigtail.png"></li>
+                <li><img src="image/default avatar/icons-brown-short-h.png"></li>
+                <li><img src="image/default avatar/icons-business-man-.png"></li>
+                <li><img src="image/default avatar/icons-indian-lady.png"></li>
+                <li><img src="image/default avatar/icons-long-curly-ha.png"></li>
+                <li><img src="image/default avatar/icons-man-in-blue-t.png"></li>
+                <li><img src="image/default avatar/icons-man-in-green-.png"></li>
+                <li><img src="image/default avatar/icons-man-in-green-_1.png"></li>
+                <li><img src="image/default avatar/icons-man-in-red-ja.png"></li>
+                <li><img src="image/default avatar/icons-man-in-stripe.png"></li>
+                <li><img src="image/default avatar/icons-man-in-white-.png"></li>
+                <li><img src="image/default avatar/icons-man-with-brow.png"></li>
+                <li><img src="image/default avatar/icons-man-in-white-_1.png"></li>
+                <li><img src="image/default avatar/icons-man-in-yellow.png"></li>
+                <li><img src="image/default avatar/icons-man-with-bear.png"></li>
+                <li><img src="image/default avatar/icons-man-with-bear_1.png"></li>
+                <li><img src="image/default avatar/icons-man-with-oran.png"></li>
+                <li><img src="image/default avatar/icons-man-with-yell.png"></li>
+                <li><img src="image/default avatar/icons-red-short-hai.png"></li>
+                <li><img src="image/default avatar/icons-short-curly-h.png"></li>
+                <li><img src="image/default avatar/icons-short-hair-bu.png"></li>
+                <li><img src="image/default avatar/icons-two-ponytails.png"></li>
+            </ul>
+        </div>
+        <div class="foot">
+            <div class="choice">
+                <button type="button" id="select-head-sure">确定</button>
+                <button type="button" id="select-head-cancel">取消</button>
+            </div>
+        </div>
+    </div>
     <style>
+        .picture-list-group li{
+            width: 60px;
+            height: 60px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .picture-list-group li.active{
+            background-color: rgb(226, 232, 238);
+        }
+        .picture-list-group li img{
+            width: 60px;
+            height: 60px;
+        }
+        .picture-list-group li:hover{
+            background-color: rgb(226, 232, 238);
+        }
+        .picture-list-group li:active{
+            background-color: rgb(220, 226, 231);
+        }
+        .dialog .body{
+            height: 276.5px;
+            overflow-y: auto;
+        }
+        .dialog{
+            width: 300px;
+            height: 367.5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            background-color: aliceblue;
+        }
+        .dialog .head{
+            height:30px;
+            line-height: 30px;
+            position: relative;
+            cursor:default;
+            background-color: rgb(222, 231, 238);
+        }
+        .dialog .head div:nth-child(2){
+            position:absolute;
+            top:0px;
+            right: 2px;
+        }
+        .dialog .body{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .dialog .body .buttons div{
+            margin: 0 auto;
+            height: 32px;
+            width: 240px;
+        }
+        .dialog .body .picture{
+            height: 200px;
+            width: 300px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .picture-container{
+            margin: 0 auto;
+            width: 240px;
+            height: 240px;
+        }
+        .dialog .body .picture img{
+            height: 240px;
+            width: 240px;
+        }
+        .dialog ul{
+            list-style: none;
+            padding-left: 5px;
+        }
+        .dialog ul li{
+            display: inline-block;
+        }
         input[type=range]{
             -webkit-appearance: none;
-            width: 300px;
-            border-radius: 10px;
+            position: relative;
+            top: 4px;
         }
-        input[type=range]::-webkit-slider-thumb{
+        input[type='range']::-webkit-slider-runnable-track{  
+            background-color: #eee;
+        }
+        input[type='range']::-moz-range-track{  
+            background-color: #eee;
+        }
+        input[type="range"]::-ms-track{  
+            color:transparent;
+            background-color: #eee;
+        }
+        input[type='range']::-webkit-slider-thumb {  
             -webkit-appearance: none;
+            border: 5px solid #fff;
+            height: 14px;
+            width: 14px;
+            border-radius: 8px;
+            background: #1ba1e2;
+            cursor: pointer;
         }
-        input[type=range]::-webkit-slider-runnable-track {
-            height: 15px;
-            border-radius: 10px; /*将轨道设为圆角的*/
-            box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+        input[type='range']::-moz-range-thumb {
+            border: 3px solid #fff;
+            height: 7px;
+            width: 7px;
+            border-radius: 8px;
+            background: #1ba1e2;
+            cursor: pointer;
         }
-        input[type=range]:focus {
-            outline: none;
+        input[type='range']::-ms-thumb {  
+            border: 3px solid #fff;
+            height: 7px;
+            width: 7px;
+            border-radius: 8px;
+            background: #1ba1e2;
+            cursor: pointer;
         }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 25px;
-            width: 25px;
-            margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
-            background: #ffffff; 
-            border-radius: 50%; /*外观设置为圆形*/
-            border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
-            box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+        .dialog .foot{
+            margin-top: 5px;
+            position: relative;
+            padding-bottom: 5px;
+            height: 32px;
         }
-        input[type=range]::-moz-range-progress {
-            background: linear-gradient(to right, #059CFA, white 100%, white);
-            height: 13px;    
-            border-radius: 10px;
-        }
-        input[type=range]::-ms-track {
-            height: 25px;
-            border-radius: 10px;
-            box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;
-            border-color: transparent; /*去除原有边框*/
-            color: transparent; /*去除轨道内的竖线*/
-        }
-
-        input[type=range]::-ms-thumb {
-            border: solid 0.125em rgba(205, 224, 230, 0.5);
-            height: 25px;
-            width: 25px;
-            border-radius: 50%;
-            background: #ffffff;
-            margin-top: -5px;
-            box-shadow: 0 .125em .125em #3b4547;
-        }
-
-        input[type=range]::-ms-fill-lower {
-            /*进度条已填充的部分*/
-            height: 22px;
-            border-radius: 10px;
-            background: linear-gradient(to right, #059CFA, white 100%, white);
-        }
-
-        input[type=range]::-ms-fill-upper {
-            /*进度条未填充的部分*/
-            height: 22px;
-            border-radius: 10px;
-            background: #ffffff;
-        }
-
-        input[type=range]:focus::-ms-fill-lower {
-            background: linear-gradient(to right, #059CFA, white 100%, white);
-        }
-
-        input[type=range]:focus::-ms-fill-upper {
-            background: #ffffff;
+        .dialog .foot .choice{
+            position: absolute;
+            right:10px;
         }
     </style>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/cropper.min.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+        {
+            let select_state = "";
+            let select_head_name = "";
+            $('#select-picture').on('click',()=>{
+                select_state = "upload";
+                $("input[name='imageFile']").click();
+            });
+            $('#select-recommend').on('click',()=>{
+                select_state = "select";
+                $('#change-head').hide();
+                $('#select-head').show();
+            });
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                $("input[name='imageFile']").on('change',function(e){
+                    let file = e.target.files[0];
+                    if(!file.type.match('image.*')){
+                        alert("请选择图片！");
+                        return false;
+                    }
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function(arg){
+                        let img = '<img src="' + arg.target.result + '" alt="preview"/>';
+                        $(".picture-container").empty().append(img);
+                        $('.picture-container > img').cropper({
+                            aspectRatio:1/1,
+                            viewMode:2,
+                            dragMode:'none'
+                        });
+                    }
+                });
+            } else {
+                alert('您的浏览器不支持图片预览功能！');
+            }
+            $('#upload-picture').on('click',()=>{
+                if(select_state == "upload"){
+                    $('.picture-container > img').cropper('getCroppedCanvas',{
+                        width:200,
+                        height:200,
+                        minWidth: 50,
+                        minHeight: 50,
+                        maxWidth: 400,
+                        maxHeight: 400,
+                        fillColor: '#fff',
+                        imageSmoothingEnabled: false,
+                        imageSmoothingQuality: 'low'
+                    }).toBlob(function (blob) {
+                        var formData = new FormData();
+                        formData.append('picture', blob);
+                        //formData.append('user_id',"1222");
+                        $.ajax('/upload', {
+                            method: "POST",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if(data=="1"){
+                                    console.log('上传头像成功！');
+                                }
+                            },
+                            error: function () {
+                                alert("上传头像失败！");
+                            }
+                        });
+                    });
+                }else if(select_state == "select"){
+                    $.post('/select-head',{select_head_name:select_head_name});
+                }
+                return false;
+            });
+            $('.picture-list-group').on('click','li',function(){
+                $(this).addClass('active');
+                $(this).siblings().removeClass('active');
+                select_head_name = $(this).find('img').attr('src');
+            });
+            $('#select-head-sure').on('click',()=>{
+                if(select_head_name == ""){
+                    alert('请选择头像！');
+                }else{
+                    $('.picture-container').empty();
+                    let img_tmp = $('<img>');
+                    $('.picture-container').append(img_tmp);
+                    $('.picture-container > img').attr('src',select_head_name);
+                    $('#select-head').hide();
+                    $('#change-head').show();
+                }
+            });
+            $('#select-head-cancel').on('click',()=>{
+                $('#select-head').hide();
+                $('#change-head').show();
+            });
+        }   
+    </script>
 </body>
 </html>

@@ -1,16 +1,39 @@
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const multer = require('multer');
+const fs = require('fs');
+const bodyParser = require('body-parser');
 const BaseModel = require('./js/base_model.js');
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 server.listen(8080,()=>{
     console.log('端口8080已运行web服务!');
 });
 app.use(express.static('public'));
+var upload = multer({
+    dest:"./public/image/upload"
+});
 
 var numUsers = 0;
 var baseModel = new BaseModel();
+
+app.post('/upload',upload.single('picture'),(req,res,next)=>{
+    console.log(req.body);
+    fs.rename(req.file.path,"./public/image/upload/" + req.file.originalname,function(err){
+        if(err){
+            throw err;
+        }
+        console.log("头像上传成功！");
+    });
+    res.end("1");
+});
+app.post('/select-head',urlencodedParser,(req,res,next)=>{
+    console.log(req.body.select_head_name);
+    res.end("1");
+});
 
 io.on('connect',(socket)=>{
     var addedUser = false;
