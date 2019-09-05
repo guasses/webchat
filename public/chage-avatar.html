@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/cropper.min.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-</head>
-<body>
+
     <div class="dialog" id="change-head">
         <div class="head">
             <div class="title">
@@ -34,8 +23,8 @@
         </div>
         <div class="foot">
             <div class="choice">
-                <button type="button" id="upload-picture">确定</button>
-                <button type="button">取消</button>
+                <button type="button" id="change-head-sure">确定</button>
+                <button type="button" id="change-head-cancel">取消</button>
             </div>
         </div>
     </div>
@@ -89,6 +78,14 @@
         </div>
     </div>
     <style>
+        .dialog{
+            position:absolute;
+            top: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 10px 10px 5px #888888;
+            border: 1px solid #b1b1b1;
+        }
         .picture-list-group li{
             width: 60px;
             height: 60px;
@@ -213,10 +210,7 @@
             right:10px;
         }
     </style>
-    <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/cropper.min.js"></script>
-    <script src="js/socket.io.js"></script>
-    <script src="js/index.js"></script>
     <script>
         {
             let select_state = "";
@@ -252,7 +246,7 @@
             } else {
                 alert('您的浏览器不支持图片预览功能！');
             }
-            $('#upload-picture').on('click',()=>{
+            $('#change-head-sure').on('click',()=>{
                 if(select_state == "upload"){
                     $('.picture-container > img').cropper('getCroppedCanvas',{
                         width:200,
@@ -267,26 +261,38 @@
                     }).toBlob(function (blob) {
                         var formData = new FormData();
                         formData.append('picture', blob);
-                        //formData.append('user_id',"1222");
+                        formData.append('user_id',localStorage.user_id);
                         $.ajax('/upload', {
                             method: "POST",
                             data: formData,
                             processData: false,
                             contentType: false,
-                            success: function (data) {
-                                if(data=="1"){
+                            success: function (result) {
+                                if(result){
                                     console.log('上传头像成功！');
+                                    $('#change-head').remove();
+                                    $('#select-head').remove();
+                                    socket.emit('head name',{head_name:result});
                                 }
                             },
                             error: function () {
                                 alert("上传头像失败！");
+                                $('#change-head').remove();
+                                $('#select-head').remove();
                             }
                         });
                     });
                 }else if(select_state == "select"){
-                    $.post('/select-head',{select_head_name:select_head_name});
+                    $.post('/select-head',{select_head_name:select_head_name,user_id:localStorage.user_id},(result)=>{
+                        socket.emit('head name',{head_name:result});
+                    });
                 }
                 return false;
+            });
+            $('#change-head-cancel').on('click',function(){
+                $('#change-head').remove();
+                $('#select-head').remove();
+                $('link[href="css/cropper.min.css"]').remove();
             });
             $('.picture-list-group').on('click','li',function(){
                 $(this).addClass('active');
@@ -311,5 +317,3 @@
             });
         }   
     </script>
-</body>
-</html>

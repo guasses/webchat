@@ -1,5 +1,5 @@
+var socket = io();
 $(function(){
-    var socket = io();
     var connected = false;
     var prePerson = "";
     var histroyPrePerson = "";
@@ -8,6 +8,7 @@ $(function(){
     var chatID = $(".list-group-item.active").attr("data-id");
     var $head_portrait = $('#head-portrait');
     var $pop_up_bar = $('.pop-up-bar');
+    var head_name = "";
     if(localStorage.username != undefined && localStorage.password != undefined){
         socket.emit('login',{
             username:localStorage.username,
@@ -79,9 +80,12 @@ $(function(){
     });
     socket.on('login state',(data)=>{
         connected = true;
-        if(data=="success"){
+        if(data['login_state']=="success"){
             $('#login-page').hide();
             $('#chat-page').show();
+            localStorage.user_id = data['user_id'];
+            head_name = data['head_name'];
+            $head_portrait.find('img').attr('src',head_name);
             var message = `欢迎${localStorage.username}来到webchat`;
             console.log(message);
             socket.emit("group histroy messages",{
@@ -99,6 +103,9 @@ $(function(){
         for(item of data){
             displayHistroyMessage(item);
         }
+    });
+    socket.on('head name',(data)=>{
+        $head_portrait.find('img').attr('src',data['head_name']);
     });
     socket.on('user joined',(data)=>{
         console.log(data.username + '加入');
@@ -189,4 +196,16 @@ $(function(){
         $content[0].scrollTop = $content[0].scrollHeight;
         histroyPrePerson = username;
     }
+
+    $('#main-change-head').on('click',()=>{
+        $("<link>")
+        .attr({ rel: "stylesheet",
+        type: "text/css",
+        href: "css/cropper.min.css"
+        }).appendTo("head");
+        $.get('chage-avatar.html',(result)=>{ 
+            $pop_up_bar.hide();
+            $('body').append(result);
+        });
+    });
 });

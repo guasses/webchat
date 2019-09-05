@@ -8,6 +8,10 @@ body{
     background-color: #eee;
     font-family: "宋体","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+#head-portrait:hover,
+#main-change-head:hover{
+    cursor: pointer;
+}
 #signin-page{
     display: none;
 }

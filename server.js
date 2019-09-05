@@ -21,18 +21,28 @@ var numUsers = 0;
 var baseModel = new BaseModel();
 
 app.post('/upload',upload.single('picture'),(req,res,next)=>{
-    console.log(req.body);
-    fs.rename(req.file.path,"./public/image/upload/" + req.file.originalname,function(err){
+    let user_id = req.body.user_id;
+    //console.log(req.file.originalname);
+    fs.rename(req.file.path,"./public/image/upload/" + req.body.user_id,function(err){
         if(err){
             throw err;
         }
-        console.log("头像上传成功！");
+        baseModel.modify('users',{id:user_id},{head_name:"image/upload/"+user_id},(result)=>{
+            if(result){
+                console.log("修改头像成功！");
+            }
+        });
+        res.end("image/upload/" + req.body.user_id);
     });
-    res.end("1");
 });
 app.post('/select-head',urlencodedParser,(req,res,next)=>{
-    console.log(req.body.select_head_name);
-    res.end("1");
+    let user_id = req.body.user_id;
+    baseModel.modify('users',{id:user_id},{head_name:req.body.select_head_name},(result)=>{
+        if(result){
+            console.log('修改头像成功！');
+        }
+    });
+    res.end(req.body.select_head_name);
 });
 
 io.on('connect',(socket)=>{
@@ -80,7 +90,12 @@ io.on('connect',(socket)=>{
         }
         baseModel.find('users',whereJson,{'key':'id','type':'desc'},[],[],function(result){
             if(result.length>0){
-                socket.emit('login state','success');
+                //console.log(result);
+                socket.emit('login state',{
+                    login_state:'success',
+                    user_id:result[0]['id'],
+                    head_name:result[0]['head_name']
+                });
                 ++numUsers;
             }else{
                 socket.emit('login state','failure');
@@ -94,6 +109,10 @@ io.on('connect',(socket)=>{
         },{'key':'time','type':'desc'},[0,10],[],(result)=>{
             socket.emit('group histroy messages',result);
         });
+    });
+    socket.on('head name',(data)=>{
+        //console.log(data);
+        socket.emit('head name',{head_name:data['head_name']});
     });
     socket.on('typing',()=>{
         socket.broadcast.emit('typing',{
