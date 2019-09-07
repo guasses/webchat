@@ -59,8 +59,7 @@ io.on('connect',(socket)=>{
             username:data['username'],
             message:data['message']
         },function(result){
-            console.log(result);
-            console.log("添加消息记录到数据库成功");
+            
         });
     });
     socket.on('add user',(data)=>{
@@ -106,7 +105,8 @@ io.on('connect',(socket)=>{
         baseModel.find('group_histroy_messages',{
             'and':[],
             'or':[]
-        },{'key':'time','type':'desc'},[0,10],[],(result)=>{
+        },{'key':'message_id','type':'desc'},[0,10],[],(result)=>{
+            //console.log(result);
             socket.emit('group histroy messages',result);
         });
     });

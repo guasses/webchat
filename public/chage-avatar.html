@@ -215,6 +215,7 @@
         {
             let select_state = "";
             let select_head_name = "";
+            let upload_pciture_tmp = "";
             $('#select-picture').on('click',()=>{
                 select_state = "upload";
                 $("input[name='imageFile']").click();
@@ -248,7 +249,7 @@
             }
             $('#change-head-sure').on('click',()=>{
                 if(select_state == "upload"){
-                    $('.picture-container > img').cropper('getCroppedCanvas',{
+                    let tmp = $('.picture-container > img').cropper('getCroppedCanvas',{
                         width:200,
                         height:200,
                         minWidth: 50,
@@ -258,7 +259,9 @@
                         fillColor: '#fff',
                         imageSmoothingEnabled: false,
                         imageSmoothingQuality: 'low'
-                    }).toBlob(function (blob) {
+                    });
+                    console.log(tmp);
+                    /*.toBlob(function (blob) {
                         var formData = new FormData();
                         formData.append('picture', blob);
                         formData.append('user_id',localStorage.user_id);
@@ -272,6 +275,8 @@
                                     console.log('上传头像成功！');
                                     $('#change-head').remove();
                                     $('#select-head').remove();
+                                    //$('#head-portrait').find('img').empty();
+                                    //$('#head-portrait').find('img').attr('src',upload_pciture_tmp);
                                     socket.emit('head name',{head_name:result});
                                 }
                             },
@@ -281,7 +286,7 @@
                                 $('#select-head').remove();
                             }
                         });
-                    });
+                    });*/
                 }else if(select_state == "select"){
                     $.post('/select-head',{select_head_name:select_head_name,user_id:localStorage.user_id},(result)=>{
                         socket.emit('head name',{head_name:result});

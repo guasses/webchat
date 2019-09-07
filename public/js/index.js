@@ -9,6 +9,7 @@ $(function(){
     var $head_portrait = $('#head-portrait');
     var $pop_up_bar = $('.pop-up-bar');
     var head_name = "";
+    var pre_histroy_message_time = "";
     if(localStorage.username != undefined && localStorage.password != undefined){
         socket.emit('login',{
             username:localStorage.username,
@@ -100,12 +101,15 @@ $(function(){
         console.log(data);
     });
     socket.on('group histroy messages',(data)=>{
-        for(item of data){
+        for(item of data.reverse()){
             displayHistroyMessage(item);
         }
     });
     socket.on('head name',(data)=>{
-        $head_portrait.find('img').attr('src',data['head_name']);
+        //$head_portrait.empty();
+        //let tmp = $('<img width="45px" height="45px">').attr('src',data['head_name']);
+        //$head_portrait.find('img').attr('src',data['head_name']);
+        //$head_portrait.append(tmp);
     });
     socket.on('user joined',(data)=>{
         console.log(data.username + '加入');
@@ -184,12 +188,14 @@ $(function(){
         username = data['username'];
         message = data['message'];
         var $message = $('<p></p>').text("·"+message);
-        if(histroyPrePerson == username){
-            $container.append($message);
+        var now_time = new Date(data['time']).getTime();
+        if(histroyPrePerson == username && (now_time - pre_histroy_message_time) < 60000){
+                $container.append($message);
         }else{
             var time = new Date(data['time']).toLocaleString();
             var $time = $('<div></div>').text(time + " " + username);
             $container.append($time).append($message);
+            pre_histroy_message_time = now_time;
         }
         $content.append($container);
         //让滚动条保持在最下方
