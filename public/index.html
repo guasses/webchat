@@ -47,7 +47,7 @@
     <div id="chat-page" class="container">
         <nav class="tim-top">
             <div class="navbar-left">
-                <a id="head-portrait"><img src="./image/default avatar/icons-bald-man-in-g.png" width="45px" height="45px" alt="自己的头像"></a>
+                <a id="head-portrait"><img src="./image/default avatar/icons-bald-man-in-g.png" width="45px" height="45px" alt="点击修改头像"></a>
             </div>
             <ul class="navbar-center">
                 <li><a href="#">消息</a></li>
@@ -63,9 +63,9 @@
         </nav>
         <div class="tim-main">
             <ul class="list-group pop-up-bar">
-                <li class="list-group-item">
-                    <h4><a href="#">用户名</a></h4>
-                    <p>编辑个性签名</p>
+                <li class="list-group-item" id="main-personal-information">
+                    <h4 id="main-username">用户名</h4>
+                    <p id="main-personalized-signature">编辑个性签名</p>
                 </li>
                 <li class="list-group-item">
                     <a id="main-change-head">修改头像</a>
@@ -77,7 +77,7 @@
                     <a href="#">切换账号</a>
                 </li>
                 <li class="list-group-item">
-                    <a href="#">退出登录</a>
+                    <a href="#" id="logout">退出登录</a>
                 </li>
             </ul>
             <div class="sidebar">

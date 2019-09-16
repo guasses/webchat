@@ -1,12 +1,12 @@
 
-    <div class="dialog" id="change-head">
+    <div class="dialog" id="change-head" draggable="true">
         <div class="head">
             <div class="title">
                 <h4>更换头像</h4>
             </div>
             <div>
                 <span class="iconfont icon-minus"></span>
-                <span class="iconfont icon-close"></span>
+                <span class="iconfont icon-close" id="change-head-close"></span>
             </div>
         </div>
         <div class="body">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="dialog" style="display: none" id="select-head">
+    <div class="dialog" style="display: none" id="select-head" draggable="true">
         <div class="head">
             <h4>选择头像</h4>
             <div>
@@ -209,6 +209,9 @@
             position: absolute;
             right:10px;
         }
+        #change-head-close{
+            cursor: pointer;
+        }
     </style>
     <script src="js/cropper.min.js"></script>
     <script>
@@ -216,6 +219,14 @@
             let select_state = "";
             let select_head_name = "";
             let upload_pciture_tmp = "";
+            $('html').on('dragenter',(e)=>{
+                //e.preventDefault();
+            });
+            $('html').on('drop',(e)=>{
+                e.preventDefault();
+                console.log(e.clientX);
+                console.log(e.clientY);
+            });
             $('#select-picture').on('click',()=>{
                 select_state = "upload";
                 $("input[name='imageFile']").click();
@@ -259,9 +270,7 @@
                         fillColor: '#fff',
                         imageSmoothingEnabled: false,
                         imageSmoothingQuality: 'low'
-                    });
-                    console.log(tmp);
-                    /*.toBlob(function (blob) {
+                    }).toBlob(function (blob) {
                         var formData = new FormData();
                         formData.append('picture', blob);
                         formData.append('user_id',localStorage.user_id);
@@ -286,10 +295,12 @@
                                 $('#select-head').remove();
                             }
                         });
-                    });*/
+                    });
                 }else if(select_state == "select"){
                     $.post('/select-head',{select_head_name:select_head_name,user_id:localStorage.user_id},(result)=>{
                         socket.emit('head name',{head_name:result});
+                        $('#change-head').remove();
+                        $('#select-head').remove();
                     });
                 }
                 return false;
@@ -299,6 +310,11 @@
                 $('#select-head').remove();
                 $('link[href="css/cropper.min.css"]').remove();
             });
+            $('#change-head-close').on('click',function(){
+                $('#change-head').remove();
+                $('#select-head').remove();
+                $('link[href="css/cropper.min.css"]').remove();
+            })
             $('.picture-list-group').on('click','li',function(){
                 $(this).addClass('active');
                 $(this).siblings().removeClass('active');

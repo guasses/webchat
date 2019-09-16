@@ -12,6 +12,9 @@ body{
 #main-change-head:hover{
     cursor: pointer;
 }
+#main-personal-information{
+    cursor: pointer;
+}
 #signin-page{
     display: none;
 }

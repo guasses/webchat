@@ -48,6 +48,8 @@ app.post('/select-head',urlencodedParser,(req,res,next)=>{
 io.on('connect',(socket)=>{
     var addedUser = false;
     socket.on('new message',(data)=>{
+        //console.log(data['username']);
+        //console.log(data['message']);
         socket.broadcast.emit('new message',{
             username:data['username'],
             message:data['message']

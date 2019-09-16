@@ -63,6 +63,10 @@ $(function(){
             displayMessage(message);
         }
     });
+    $('#logout').click((e)=>{
+        localStorage.clear();
+        window.location.href="index.html";
+    });
     $inputMessage.keyup((e)=>{
         if(e.keyCode == 13){
             let message = sendMessage(socket);
@@ -84,6 +88,7 @@ $(function(){
         if(data['login_state']=="success"){
             $('#login-page').hide();
             $('#chat-page').show();
+            $('#main-username').text(localStorage.username);
             localStorage.user_id = data['user_id'];
             head_name = data['head_name'];
             $head_portrait.find('img').attr('src',head_name);
@@ -107,8 +112,8 @@ $(function(){
     });
     socket.on('head name',(data)=>{
         //$head_portrait.empty();
-        //let tmp = $('<img width="45px" height="45px">').attr('src',data['head_name']);
-        //$head_portrait.find('img').attr('src',data['head_name']);
+        //let tmp = $('<img width="45px" height="45px">').attr('src',data['head_name'] + '?' + "change");
+        $head_portrait.find('img').attr('src',data['head_name'] + '?' + 'change');
         //$head_portrait.append(tmp);
     });
     socket.on('user joined',(data)=>{
