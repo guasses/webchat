@@ -2,6 +2,21 @@
     padding: 0;
     margin: 0;
 }
+input,button,select,textarea{outline:none}
+.navbar-center .active{
+    position: relative;
+}
+.navbar-center .active:after{
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 7px;
+    width: 0;
+    border: 10px solid white;
+    border-top-color:transparent ;/*设置下边框的颜色为透明色,当然也设置为白色,因为背景颜色为白色*/
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
 body{
     padding-top: 60px;
     padding-bottom: 40px;
@@ -336,4 +351,9 @@ a{
 #content{
     overflow: auto;
     overflow-x: hidden;
+}
+
+/*联系人页面*/
+#friends-sidebar > div:nth-child(1){
+    height: 30px;
 }

@@ -50,9 +50,9 @@
                 <a id="head-portrait"><img src="./image/default avatar/icons-bald-man-in-g.png" width="45px" height="45px" alt="点击修改头像"></a>
             </div>
             <ul class="navbar-center">
-                <li><a href="#">消息</a></li>
-                <li><a href="#">联系人</a></li>
-                <li><a href="#">云文档</a></li>
+                <li><a href="#" id="messages" class="active">消息</a></li>
+                <li><a href="#" id="friends">联系人</a></li>
+                <li><a href="#" id="netdisk">云文档</a></li>
             </ul>
             <ul class="navbar-right">
                 <li><span class="iconfont icon-menu"></span></li>
@@ -103,6 +103,22 @@
                         <p>您已登录手机QQ，可传文件到手机</p>
                     </li>-->
                 </ul>
+                <div id="friends-sidebar" style="display: none">
+                    <div>
+                        <a href="#">好友</a>
+                        <a href="#">群聊</a>
+                    </div>
+                    <div>
+                        <p>我的好友</p>
+                        <ul class="list-group">
+                            <li class="list-group-item active" data-id="0">
+                                <img src="./image/default avatar/icons-blond-long-ha.png" width="45px" height="45px">
+                                <h4>公共聊天室</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="main">
                 <div class="main-title">

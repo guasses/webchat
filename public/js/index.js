@@ -57,6 +57,24 @@ $(function(){
     $head_portrait.click((e)=>{
         $pop_up_bar.toggle();
     });
+    $('#messages').on('click',function(e){
+        $(this).parent('li').siblings().children('a').removeClass('active');
+        $(this).addClass('active');
+        $('.sidebar>.list-group').show();
+        $('.tim-main>.main').show();
+        $('#friends-sidebar').hide();
+    });
+    $('#friends').on('click',function(e){
+        $(this).parent('li').siblings().children('a').removeClass('active');
+        $(this).addClass('active');
+        $('.sidebar>.list-group').hide();
+        $('.tim-main>.main').hide();
+        $('#friends-sidebar').show();
+    });
+    $('#netdisk').on('click',function(e){
+        $(this).parent('li').siblings().children('a').removeClass('active');
+        $(this).addClass('active');
+    });
     $("#send-message").click((e)=>{
         let message = sendMessage(socket);
         if(message && connected){
