@@ -353,7 +353,91 @@ a{
     overflow-x: hidden;
 }
 
-/*联系人页面*/
+/*
+ *
+ *联系人页面样式
+ */
+#friends-sidebar{
+    height: 545px;
+    font-family: 'Courier New', Courier, monospace;
+}
 #friends-sidebar > div:nth-child(1){
-    height: 30px;
+    height: 40px;
+    border-bottom: 1px solid rgb(179, 179, 179);
+    position: relative;
+    font-weight: bold;
+    font-size:0.9em;
+}
+#friends-sidebar > div:nth-child(1) > a:nth-child(1){
+    position: absolute;
+    height: 25px;
+    padding: 0 3px;
+    top: 13px ;
+    left: 45px;
+    cursor: pointer;
+}
+#friends-sidebar > div:nth-child(1) > a:nth-child(2){
+    position: absolute;
+    height: 25px;
+    padding: 0 3px;
+    top: 13px ;
+    right: 55px;
+    cursor: pointer;
+}
+#friends-sidebar > div:nth-child(1) > a:hover{
+    border-bottom: 3px solid rgb(69, 130, 187);
+}
+#friends-sidebar > div:nth-child(1) > a.active{
+    border-bottom: 3px solid rgb(69, 130, 187);
+}
+#friends-sidebar > div:nth-child(2),
+#friends-sidebar > div:nth-child(3){
+    height: 504px;
+    padding-top: 10px;
+    position: relative;
+}
+#friends-sidebar > div:nth-child(2) > p,
+#friends-sidebar > div:nth-child(3) > p{
+    font-family: "微软雅黑";
+    font-weight: bold;
+    font-size: 0.8em;
+    cursor: default;
+    height: 20px;
+    padding-left: 10px;
+}
+#friends-sidebar > div:nth-child(2) > p:before,
+#friends-sidebar > div:nth-child(3) > p:before{
+    display: inline-block;
+    content: "";
+    width: 0;
+    border: 5px solid rgb(128, 128, 128);
+    border-top-color:transparent ;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+#friends-sidebar > div:nth-child(2) > p.active:before,
+#friends-sidebar > div:nth-child(3) > p.active:before{
+    position: relative;
+    top: 2px;
+    left: -2px;
+    border-left-color:transparent ;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-top-color: rgb(128, 128, 128);
+}
+#friends-sidebar > div:nth-child(2) > .list-group,
+#friends-sidebar > div:nth-child(3) > .list-group{
+    padding-top: 0;
+    height: 474px;
+}
+.icon-plus-circle{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    color: #337ab7;
+    font-size: 2.5em;
+}
+.icon-plus-circle:hover{
+    color: #0a589c
 }

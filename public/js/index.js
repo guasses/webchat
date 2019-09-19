@@ -70,10 +70,14 @@ $(function(){
         $('.sidebar>.list-group').hide();
         $('.tim-main>.main').hide();
         $('#friends-sidebar').show();
+        socket.emit('my friends',{id:localStorage.user_id});
     });
     $('#netdisk').on('click',function(e){
         $(this).parent('li').siblings().children('a').removeClass('active');
         $(this).addClass('active');
+        $('.sidebar>.list-group').hide();
+        $('.tim-main>.main').hide();
+        $('#friends-sidebar').hide();
     });
     $("#send-message").click((e)=>{
         let message = sendMessage(socket);
@@ -145,6 +149,14 @@ $(function(){
     });
     socket.on('stop typing',()=>{
 
+    });
+    socket.on('my friends',(data)=>{
+        let $li = $('<li></li>').addClass('list-group-item').attr('data-id',data.id);
+        let $img = $('<img>').attr('src',data.head_name).attr('width','45px').attr('height','45px');
+        let $h4 = $('<h4></h4>').text(data.username);
+        let $p = $('<p></p>');
+        $li.append($img).append($h4).append($p);
+        $('#friends-sidebar > div:nth-child(2) > .list-group').append($li);
     });
     socket.on('disconnect',()=>{
         connected = false;
@@ -236,5 +248,40 @@ $(function(){
             $pop_up_bar.hide();
             $('body').append(result);
         });
+    });
+
+    /**
+     * 联系人页面逻辑
+     * 
+     */
+    $('#friends-list').on('click',function(e){
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        $(this).parent().parent('#friends-sidebar').find('div:nth-child(2)').show();
+        $(this).parent().parent('#friends-sidebar').find('div:nth-child(3)').hide();
+    });
+    $('#groups-list').on('click',function(e){
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        $(this).parent().parent('#friends-sidebar').find('div:nth-child(3)').show();
+        $(this).parent().parent('#friends-sidebar').find('div:nth-child(2)').hide();
+    });
+    $('#friends-sidebar > div:nth-child(2) > p').on('click',function(e){
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else{
+            $(this).addClass('active');
+        }
+        $('#friends-sidebar > div:nth-child(2) > .list-group').toggle();
+    });
+    $('#add-friend').on('click',function(e){
+        $('#add-page').show();
+    });
+
+    /**
+     * 添加好友页面逻辑
+     */
+    $('#add-page-close').on('click',function(e){
+        $('#add-page').hide();
     });
 });

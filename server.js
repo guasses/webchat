@@ -9,8 +9,8 @@ const BaseModel = require('./js/base_model.js');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-server.listen(8080,()=>{
-    console.log('端口8080已运行web服务!');
+server.listen(8082,()=>{
+    console.log('端口8082已运行web服务!');
 });
 app.use(express.static('public'));
 var upload = multer({
@@ -110,6 +110,23 @@ io.on('connect',(socket)=>{
         },{'key':'message_id','type':'desc'},[0,10],[],(result)=>{
             //console.log(result);
             socket.emit('group histroy messages',result);
+        });
+    });
+    socket.on('my friends',(data)=>{
+        baseModel.findOneById('friends_id',{my_id:data['id']},function(result){
+            let friends_id = result['my_friends_id'].split(',');
+            //console.log(friends_id);
+            for(i in friends_id){
+                //console.log(friends_id[i]);
+                baseModel.findOneById('users',{id:friends_id[i]},function(results){
+                    //console.log(results);
+                    socket.emit('my friends',{
+                        id:results['id'],
+                        username:results['username'],
+                        head_name:results['head_name']
+                    });
+                });
+            }
         });
     });
     socket.on('head name',(data)=>{

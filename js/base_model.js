@@ -91,6 +91,7 @@ module.exports = function(){
                 callback(false);
                 dbClient.end();
             }else{*/
+                //console.log(result);
                 if(result){
                     callback(result.pop());
                 }else{
