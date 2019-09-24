@@ -282,6 +282,6 @@ $(function(){
      * 添加好友页面逻辑
      */
     $('#add-page-close').on('click',function(e){
-        $('#add-page').hide();
+        $('#add-page').remove();
     });
 });
