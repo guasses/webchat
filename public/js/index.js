@@ -10,6 +10,7 @@ $(function(){
     var $pop_up_bar = $('.pop-up-bar');
     var head_name = "";
     var pre_histroy_message_time = "";
+    var my_friends = false;
     if(localStorage.username != undefined && localStorage.password != undefined){
         socket.emit('login',{
             username:localStorage.username,
@@ -70,7 +71,10 @@ $(function(){
         $('.sidebar>.list-group').hide();
         $('.tim-main>.main').hide();
         $('#friends-sidebar').show();
-        socket.emit('my friends',{id:localStorage.user_id});
+        if(!my_friends){
+            my_friends = true;
+            socket.emit('my friends',{id:localStorage.user_id});
+        }
     });
     $('#netdisk').on('click',function(e){
         $(this).parent('li').siblings().children('a').removeClass('active');
@@ -275,13 +279,8 @@ $(function(){
         $('#friends-sidebar > div:nth-child(2) > .list-group').toggle();
     });
     $('#add-friend').on('click',function(e){
-        $('#add-page').show();
-    });
-
-    /**
-     * 添加好友页面逻辑
-     */
-    $('#add-page-close').on('click',function(e){
-        $('#add-page').remove();
+        $.get('add-friend-page.html',(result)=>{
+            $('body').append(result);
+        })
     });
 });

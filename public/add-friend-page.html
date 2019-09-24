@@ -1,4 +1,4 @@
-<div class="dialog" id="add-page" style="display: none">
+<div class="dialog" id="add-page">
     <div class="head">
         <div></div>
         <div>
@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-<style>
+<style id="add-page-style">
     .dialog{
         position:absolute;
         width: 620px;
@@ -158,3 +158,10 @@
         background-color: rgb(93, 161, 250);
     }
 </style>
+<script id="add-page-js">
+    $('#add-page-close').on('click',function(e){
+        $('#add-page').remove();
+        $('#add-page-style').remove();
+        $('#add-page-js').remove();
+    });
+</script>

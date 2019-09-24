@@ -77,7 +77,7 @@
             </div>
         </div>
     </div>
-    <style>
+    <style id="change-head-page-style">
         .dialog{
             position:absolute;
             top: 130px;
@@ -214,7 +214,7 @@
         }
     </style>
     <script src="js/cropper.min.js"></script>
-    <script>
+    <script id="change-head-page-js">
         {
             let select_state = "";
             let select_head_name = "";
@@ -287,12 +287,20 @@
                                     //$('#head-portrait').find('img').empty();
                                     //$('#head-portrait').find('img').attr('src',upload_pciture_tmp);
                                     socket.emit('head name',{head_name:result});
+                                    $('link[href="css/cropper.min.css"]').remove();
+                                    $('script[src="js/cropper.min.js"]').remove();
+                                    $('#change-head-page-style').remove();
+                                    $('#change-head-page-js').remove();
                                 }
                             },
                             error: function () {
                                 alert("上传头像失败！");
                                 $('#change-head').remove();
                                 $('#select-head').remove();
+                                $('link[href="css/cropper.min.css"]').remove();
+                                $('script[src="js/cropper.min.js"]').remove();
+                                $('#change-head-page-style').remove();
+                                $('#change-head-page-js').remove();
                             }
                         });
                     });
@@ -301,7 +309,13 @@
                         socket.emit('head name',{head_name:result});
                         $('#change-head').remove();
                         $('#select-head').remove();
+                        $('link[href="css/cropper.min.css"]').remove();
+                        $('script[src="js/cropper.min.js"]').remove();
+                        $('#change-head-page-style').remove();
+                        $('#change-head-page-js').remove();
                     });
+                }else{
+                    alert("请选择头像！");
                 }
                 return false;
             });
@@ -309,11 +323,17 @@
                 $('#change-head').remove();
                 $('#select-head').remove();
                 $('link[href="css/cropper.min.css"]').remove();
+                $('script[src="js/cropper.min.js"]').remove();
+                $('#change-head-page-style').remove();
+                $('#change-head-page-js').remove();
             });
             $('#change-head-close').on('click',function(){
                 $('#change-head').remove();
                 $('#select-head').remove();
                 $('link[href="css/cropper.min.css"]').remove();
+                $('script[src="js/cropper.min.js"]').remove();
+                $('#change-head-page-style').remove();
+                $('#change-head-page-js').remove();
             })
             $('.picture-list-group').on('click','li',function(){
                 $(this).addClass('active');
